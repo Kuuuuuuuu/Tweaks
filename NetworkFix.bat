@@ -24,10 +24,6 @@ for /l %%i in (0,1,5) do (
   wmic path win32_networkadapter where index=%%i call enable
 )
 
-:: Reset network settings
-ipconfig /release
-ipconfig /renew
-
 :: Reset firewall, ARP cache, and more
 netsh advfirewall reset
 arp -d *
@@ -77,16 +73,9 @@ net start RmSvc
 :: Adjust TCP Size
 netsh interface tcp set global autotuninglevel=experimental
 netsh interface tcp set global rss=enabled
-netsh interface tcp set global chimney=enabled
 
 :: Disable Auto-Tuning
 netsh interface tcp set global autotuning=disabled
-
-:: Remove static ARP entries
-arp -d *
-
-:: Reset Windows Firewall
-netsh advfirewall reset
 
 :: Release and renew IP addresses
 ipconfig /release
